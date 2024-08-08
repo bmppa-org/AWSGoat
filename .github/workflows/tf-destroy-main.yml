@@ -36,6 +36,13 @@ jobs:
       id: account
       run: |
         echo "::set-output name=ACCOUNT_ID::$(aws sts get-caller-identity --query Account --output text)"
+
+    - name: configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+       role-to-assume: arn:aws:iam::386650976415:role/bmppa-github-actions
+       role-session-name: githubactions
+       aws-region: ${{env.AWS_REGION}}
     
     # Copy and delete terraform.tfstate files from s3 bucket
     - name: Retrieve tfstate
